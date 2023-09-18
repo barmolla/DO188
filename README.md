@@ -113,3 +113,91 @@ podman image inspect <host_registry>/<username>/<image_name>:<tag_name> -f "{{.M
 ```
 podman volume ls
 ```
+
+## Inspeccionar un volumen en particular
+
+```
+podman volume inspect <volume-id>
+```
+
+La salida del comando anterior debiera ser similar a lo siguiente:
+
+```
+[
+    {
+        "CreatedAt": "2023-07-05T15:16:45Z",
+        "Driver": "local",
+        "Labels": null,
+        "Mountpoint": "/var/lib/docker/volumes/fdf6f6198b1cea0cce15b36e09c0c12fb6de756b23ed4b0ed1573459780117d7/_data",
+        "Name": "fdf6f6198b1cea0cce15b36e09c0c12fb6de756b23ed4b0ed1573459780117d7",
+        "Options": null,
+        "Scope": "local"
+    }
+]
+```
+
+Donde Mountpoint es la ruta absoluta en el file system host donde la información del 
+container en ejecución irá escribiendo.
+
+## Vincular un volumen a un contenedor al momento de crearlo
+
+```
+podman run -d \
+           --name <container-name> \
+           --rm \
+           -p <host-port>:<container-port> \
+           -v <name-volume-host>:<container-path>:<SELinux->
+```
+
+También puede especificarse una ruta absoluta del file system host al momento de crear el contenedor (no tienen que ser un volumen creado necesariamente con docker/podman).
+
+## Exportar información de un volumen a un archivo tar
+
+```
+podman volume export <name-volume-host> --output <name.tar.gz>
+```
+
+Extraer para verificar su contenido
+
+```
+tar tf <name.tar.gz>
+```
+
+Crear otro volumen importando la información exportada previamente
+
+```
+podman volume create <name-volume-host-2>
+```
+
+E importar
+
+```
+podman volume import <name-volume-host-2> <name.tar.gz>
+```
+
+## Mostrar procesos dentro de un contenedor
+
+```
+podman top <container-name>
+```
+
+## Mostrar columnas huser y user de los procesos dentro de un contenedor
+
+```
+podman top <container-name> huser user
+```
+
+## Ejecutar un comando dentro de un nuevo namespace (como si fuera dentro de un contenedor)
+
+Este comando es útil para diagnosticar problemas de privilegios
+
+```
+podman unshare ls -l --directory ~/<folder>
+```
+
+## Una forma diferente de montar un volumen en la creación de un contenedor
+
+```
+podman run --rm --name <container-name> -p <host-port>:<container-port> --mount \
+'type=volume,source=html-vol,destination=/server,ro'
+```
