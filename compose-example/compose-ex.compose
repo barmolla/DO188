@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  db-admin:
+    image: quay.io/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@redhat.com
+      PGADMIN_DEFAULT_PASSWORD: redhat
+    ports:
+      - "9876:80"
+  db:
+    image: registry.redhat.io/rhel8/postgresql-13
+    environment:
+      POSTGRESQL_USER: redhat
+      POSTGRESQL_DATABASE: db
+      POSTGRESQL_PASSWORD: redhat
+    ports:
+      - "5432:5423"
+    volumes:
+      - db-vol:/var/lib/postgresql/data
+
+volumes:
+  db-vol: {}

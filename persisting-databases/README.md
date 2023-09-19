@@ -76,3 +76,9 @@ podman exec persisting-pg13 pg_restore -d rpi-store /tmp/db_dump
 ```
 podman exec -it persisting-pg13 psql -d rpi-store -c "select * from model"
 ```
+
+## Inspeccionar volumen
+
+```
+podman volume inspect <volume-name>
+```

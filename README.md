@@ -76,6 +76,26 @@ podman network ls
 podman build -t <host_registry>/<username>/<image_name>:<tag_name> .
 ```
 
+## Inspeccionar metadatos de un container en ejecución
+
+Visualizar comando de creación del contenedor
+
+```
+podman inspect <container-name> --format '{{.Config.CreateCommand}}'
+```
+
+Visualizar configuraciones de red
+
+```
+podman inspect <container-name> --format '{{.NetworkSettings.Networks}}'
+```
+
+Visualizar configuraciones de volumenes montados
+
+```
+podman inspect <container-name> --format '{{.Config.Mounts}}'
+```
+
 ## Inspeccionar metadatos de la imagen
 
 En este caso, formateando la salida buscando los valores contenidos en Config->Env
@@ -201,3 +221,11 @@ podman unshare ls -l --directory ~/<folder>
 podman run --rm --name <container-name> -p <host-port>:<container-port> --mount \
 'type=volume,source=html-vol,destination=/server,ro'
 ```
+
+## Genera manifiesto declarativo de K8S a partir de contenedor (Pod) o volumen (PVC)
+
+podman generate kube <container-name|volume-name> > <name>.yaml
+
+## Genera recurso a partir de un manifiesto
+
+podman play kube <container-name|volume-name>.yaml

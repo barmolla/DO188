@@ -72,3 +72,18 @@ podman stop <container-name>
 ```
 ^stop^rm
 ```
+
+## Ejecutar un comando en un namespace en particular utilizando los recursos del host
+
+Obtener ID de proceso
+
+```
+podman inspect <container-name> --format "{{.State.Pid}}"
+```
+
+Luego ejecutar el siguiente comando
+
+```
+sudo nsenter -n -t <pID> <available-command-in-host>
+sudo nsenter -n -t <pID> ss -plnt
+```
