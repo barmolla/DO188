@@ -90,10 +90,30 @@ Visualizar configuraciones de red
 podman inspect <container-name> --format '{{.NetworkSettings.Networks}}'
 ```
 
-Visualizar configuraciones de volumenes montados
+Volcar en un archivo el output del inspect
+
+```
+podman inspect <container-name> > inspect.out
+```
+
+## Visualizar configuraciones de volumenes montados
 
 ```
 podman inspect <container-name> --format '{{.Config.Mounts}}'
+```
+
+## Copiar archivos entre containers y file system host
+
+Desde container a file system host
+
+```
+podman cp <container-name>:<path-to-file> <file-system-host-path-to-file> 
+```
+
+Desde file system host a container
+
+```
+podman cp <file-system-host-path-to-file> <container-name>:<path-to-file>
 ```
 
 ## Inspeccionar metadatos de la imagen

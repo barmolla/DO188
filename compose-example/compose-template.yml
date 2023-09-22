@@ -1,0 +1,26 @@
+services:
+  <service-name-1>:
+    image: "image URL"
+    container_name: "container name"
+    networks:
+    - <network-name>
+    volumes:
+    - <host-path>:<container-path>:Z
+  <service-name-2>:
+    image: "image URL"
+    container_name: "container name"
+    ports:
+    - "<host-port>:<container-port>"
+    networks:
+    - <network-name>
+    environment:
+      <env-var-name>: "value"
+  <service-name-3>:
+    image: "image URL"
+    container_name: "container name"
+    ports:                                                                                                      
+    - "<host-port>:<container-port>"
+        
+networks:
+  <network-name>: {}
+
